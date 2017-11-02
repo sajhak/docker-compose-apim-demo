@@ -1,0 +1,83 @@
+version: '2'
+services:
+  mysql:
+    image: docker.wso2.com/apim-demosuite-mysql
+    build:
+      context: .
+      dockerfile: mysql/Dockerfile
+    ports:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+
+  order:
+    image: docker.wso2.com/apim-demosuite-order
+    build:
+      context: .
+      dockerfile: order-service/Dockerfile
+    ports:
+      - "8080"
+
+  inventory:
+    image: docker.wso2.com/apim-demosuite-inventory
+    build:
+      context: .
+      dockerfile: inventory-service/Dockerfile
+    ports:
+      - "8080"
+
+  employee:
+    image: docker.wso2.com/apim-demosuite-employee
+    build:
+      context: .
+      dockerfile: employee-service/Dockerfile
+    ports:
+      - "8080"
+
+  apim-analytics:
+    image: docker.wso2.com/apim-demosuite-analytics
+    build:
+      context: .
+      dockerfile: apim-analytics/Dockerfile
+    ports:
+      - "9444:9444"
+      - "9764:9764"
+    environment:
+      SLEEP: 100
+
+  apim:
+   image: docker.wso2.com/apim-demosuite-apim-allinone
+   build:
+     context: .
+     dockerfile: apim/Dockerfile
+   ports:
+      - "80:9763"
+      - "443:9443"
+      - "8280:8280"
+      - "8243:8243"
+   environment:
+      SLEEP: 160
+
+
+  webapp:
+    image: docker.wso2.com/apim-demosuite-webapp
+    build:
+      context: .
+      dockerfile: webapp/Dockerfile
+    ports:
+      - "8080:8080"
+
+#  identity:
+#   image: docker.wso2.com/petstore-pet
+#  build:
+#      context: .
+#     dockerfile: pet/Dockerfile
+#   ports:
+#      - "8080"
+#    environment:
+#      - REDIS_MASTER_HOST=redis
+#      - REDIS_MASTER_PORT=6379
+#      - METRICS_REPORTING_DAS_RECEIVERURL=tcp://das:7611
+#      - HTTP_MONITORING_DAS_RECEIVERURL=tcp://das:7611
+#    depends_on:
+
